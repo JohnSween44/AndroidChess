@@ -1,6 +1,8 @@
 package com.example.androidchess;
 
 
+import android.widget.ImageView;
+
 /**
  *
  * @author John Sweeney
@@ -19,13 +21,15 @@ public class Space {
     private String name;
     private String color;
     private Piece piece;
+    private ImageView spot;
 
     /**
      * Constructor for building a space
      * @param color String
      * @param name String
      */
-    public Space(String color, String name) {
+    public Space(String color, String name, ImageView resource) {
+        setSpot(resource);
         setColor(color);
         setName(name);
     }
@@ -36,6 +40,10 @@ public class Space {
      */
     public void setColor(String color) {
         this.color = color;
+    }
+
+    public void setSpot(ImageView spot){
+        this.spot = spot;
     }
 
     /**
@@ -77,6 +85,10 @@ public class Space {
      */
     public String getName() {
         return name;
+    }
+
+    public ImageView getSpot(){
+        return spot;
     }
 
     /**

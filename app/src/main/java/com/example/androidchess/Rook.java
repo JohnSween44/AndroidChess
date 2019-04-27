@@ -1,6 +1,8 @@
 package com.example.androidchess;
 
 
+import android.graphics.drawable.Drawable;
+
 import java.util.*;
 
 /**
@@ -19,8 +21,8 @@ public class Rook extends Piece {
     /*
      * Constructor for creating rooks
      */
-    public Rook(String type, Space space) {
-        super(type, space);
+    public Rook(String type, Space space, Drawable x) {
+        super(type, space, x);
     }
 
     /**

@@ -1,5 +1,8 @@
 package com.example.androidchess;
 
+import android.widget.ImageView;
+import android.app.Activity;
+
 import java.util.*;
 
 /**
@@ -33,12 +36,14 @@ public class Board {
     private static boolean checkMate = false;
     private boolean drawFlag = false;
     private int whoseTurn = 0;
-    private Scanner keys = new Scanner(System.in);
+    private Activity x;
+    //private Scanner keys = new Scanner(System.in);
 
     /**
      * Constructor builds board and creates pieces
      */
-    public Board() {
+    public Board(Activity activity) {
+        x = activity;
         int whiteIndex = 0;
         int blackIndex = 0;
         int colorPicker = 0;
@@ -48,7 +53,8 @@ public class Board {
             for(int j = 0; j < 8; j++) {
                 String name = column + Integer.toString(row);
                 String color = ((colorPicker % 2 == 0) ? "  " : "##");
-                Space s = new Space(color, name);
+                int resID = x.getResources().getIdentifier(name, "Id", "com.example.androidchess");
+                Space s = new Space(color, name, (ImageView)x.findViewById(resID));
                 board[i][j] = s;
                 column++;
                 colorPicker++;
@@ -58,64 +64,64 @@ public class Board {
         }
 
         for(int i = 0; i < 8; i++) {
-            Pawn blackP = new Pawn("bp", board[1][i]);
+            Pawn blackP = new Pawn("bp", board[1][i], x.getResources().getDrawable(R.drawable.bpawn, x.getTheme()));
             board[1][i].setPiece(blackP);
             blackPieces[blackIndex++] = blackP;
-            Pawn whiteP = new Pawn("wp", board[6][i]);
+            Pawn whiteP = new Pawn("wp", board[6][i], x.getResources().getDrawable(R.drawable.wpawn, x.getTheme()));
             board[6][i].setPiece(whiteP);
             whitePieces[whiteIndex++] = whiteP;
         }
 
-        Rook bRook1 = new Rook("bR", board[0][0]);
-        Rook bRook2 = new Rook("bR", board[0][7]);
+        Rook bRook1 = new Rook("bR", board[0][0], x.getResources().getDrawable(R.drawable.brook, x.getTheme()));
+        Rook bRook2 = new Rook("bR", board[0][7], x.getResources().getDrawable(R.drawable.brook, x.getTheme()));
         board[0][0].setPiece(bRook1);
         blackPieces[blackIndex++] = bRook1;
         board[0][7].setPiece(bRook2);
         blackPieces[blackIndex++] = bRook2;
-        Rook wRook1 = new Rook("wR", board[7][0]);
-        Rook wRook2 = new Rook("wR", board[7][7]);
+        Rook wRook1 = new Rook("wR", board[7][0], x.getResources().getDrawable(R.drawable.wrook, x.getTheme()));
+        Rook wRook2 = new Rook("wR", board[7][7], x.getResources().getDrawable(R.drawable.wrook, x.getTheme()));
         board[7][0].setPiece(wRook1);
         whitePieces[whiteIndex++] = wRook1;
         board[7][7].setPiece(wRook2);
         whitePieces[whiteIndex++] = wRook2;
-        Knight bKnight1 = new Knight("bN", board[0][1]);
-        Knight bKnight2 = new Knight("bN", board[0][6]);
+        Knight bKnight1 = new Knight("bN", board[0][1], x.getResources().getDrawable(R.drawable.bknight, x.getTheme()));
+        Knight bKnight2 = new Knight("bN", board[0][6], x.getResources().getDrawable(R.drawable.bknight, x.getTheme()));
         board[0][1].setPiece(bKnight1);
         blackPieces[blackIndex++] = bKnight1;
         board[0][6].setPiece(bKnight2);
         blackPieces[blackIndex++] = bKnight2;
-        Knight wKnight1 = new Knight("wN", board[7][1]);
-        Knight wKnight2 = new Knight("wN", board[7][6]);
+        Knight wKnight1 = new Knight("wN", board[7][1], x.getResources().getDrawable(R.drawable.wknight, x.getTheme()));
+        Knight wKnight2 = new Knight("wN", board[7][6], x.getResources().getDrawable(R.drawable.wknight, x.getTheme()));
         board[7][1].setPiece(wKnight1);
         whitePieces[whiteIndex++] = wKnight1;
         board[7][6].setPiece(wKnight2);
         whitePieces[whiteIndex++] = wKnight2;
-        Bishop bBishop1 = new Bishop("bB", board[0][2]);
-        Bishop bBishop2 = new Bishop("bB", board[0][5]);
+        Bishop bBishop1 = new Bishop("bB", board[0][2], x.getResources().getDrawable(R.drawable.bbishop, x.getTheme()));
+        Bishop bBishop2 = new Bishop("bB", board[0][5], x.getResources().getDrawable(R.drawable.bbishop, x.getTheme()));
         board[0][2].setPiece(bBishop1);
         blackPieces[blackIndex++] = bBishop1;
         board[0][5].setPiece(bBishop2);
         blackPieces[blackIndex++] = bBishop2;
-        Bishop wBishop1 = new Bishop("wB", board[7][2]);
-        Bishop wBishop2 = new Bishop("wB", board[7][5]);
+        Bishop wBishop1 = new Bishop("wB", board[7][2], x.getResources().getDrawable(R.drawable.wbishop, x.getTheme()));
+        Bishop wBishop2 = new Bishop("wB", board[7][5], x.getResources().getDrawable(R.drawable.wbishop, x.getTheme()));
         board[7][2].setPiece(wBishop1);
         whitePieces[whiteIndex++] = wBishop1;
         board[7][5].setPiece(wBishop2);
         whitePieces[whiteIndex++] = wBishop2;
-        Queen bQueen = new Queen("bQ", board[0][3]);
-        Queen wQueen = new Queen("wQ", board[7][3]);
+        Queen bQueen = new Queen("bQ", board[0][3], x.getResources().getDrawable(R.drawable.bqueen, x.getTheme()));
+        Queen wQueen = new Queen("wQ", board[7][3], x.getResources().getDrawable(R.drawable.wqueen, x.getTheme()));
         board[0][3].setPiece(bQueen);
         blackPieces[blackIndex++] = bQueen;
         board[7][3].setPiece(wQueen);
         whitePieces[whiteIndex++] = wQueen;
-        King bKing = new King("bK", board[0][4]);
-        King wKing = new King("wK", board[7][4]);
+        King bKing = new King("bK", board[0][4], x.getResources().getDrawable(R.drawable.bking, x.getTheme()));
+        King wKing = new King("wK", board[7][4], x.getResources().getDrawable(R.drawable.wking, x.getTheme()));
         board[0][4].setPiece(bKing);
         blackPieces[blackIndex++] = bKing;
         board[7][4].setPiece(wKing);
         whitePieces[whiteIndex++] = wKing;
         reState();
-        print();
+        //print();
     }
     /**
      * Starts the game/move by parsing user input to determine if there castle-ing,
@@ -124,30 +130,34 @@ public class Board {
      * @return Returns boolean true always until there is a winner
      * 		   in which case it returns false as the game has now ended
      */
-    public boolean play() {
+    public int play(String input) {
         Piece inDangerPiece = null;
         boolean possibleCapture = false;
-        String input = keys.nextLine();
-        System.out.println("");
+        //String input = keys.nextLine();
+        //System.out.println("");
         String [] inputs = input.split(" ");
-
+        /*
         if(inputs.length > 3 || inputs.length < 1) {
             System.out.print("Illegal move, try again: ");
             return true;
         }
-
+        */
         if(inputs.length == 1) {
             if(inputs[0].equals("resign")) {
-                String winner = ((whoseTurn % 2 == 0) ? "Black wins" : "White wins");
-                System.out.println(winner);
-                return false;
+                //String winner = ((whoseTurn % 2 == 0) ? "Black wins" : "White wins");
+                //System.out.println(winner);
+                return 1;
+            }
+            else if(inputs[0].equals("draw")){
+                drawFlag = true;
+                return 4;
             }
             else if(inputs[0].equals("draw") && drawFlag) {
-                return false;
+                return 2;
             }
             else {
-                System.out.print("Illegal move, try again: ");
-                return true;
+                //System.out.print("Illegal move, try again: ");
+                return -1;
             }
         }
 
@@ -155,34 +165,34 @@ public class Board {
         String destination = inputs[1];
 
         if(target.equals(destination)) {
-            System.out.print("Illegal move, try again: ");
-            return true;
+            //System.out.print("Illegal move, try again: ");
+            return -1;
         }
         if(target.charAt(0) < 'a' || target.charAt(0) > 'h' || target.charAt(1) > '8' || target.charAt(1) < '1') {
-            System.out.print("Illegal move, try again: ");
-            return true;
+            //System.out.print("Illegal move, try again: ");
+            return -1;
         }
         if(destination.charAt(0) < 'a' || destination.charAt(0) > 'h' || destination.charAt(1) > '8' || destination.charAt(1) < '1') {
-            System.out.print("Illegal move, try again: ");
-            return true;
+            //System.out.print("Illegal move, try again: ");
+            return -1;
         }
 
         Space tar = Board.fetchSpace(target);
         Space dest = Board.fetchSpace(destination);
 
         if(tar.getPiece() == null) {
-            System.out.print("Illegal move, try again: ");
-            return true;
+            //System.out.print("Illegal move, try again: ");
+            return -1;
         }
         if((tar.getPiece().getType().charAt(0) == 'b' && whoseTurn % 2 == 0) || (tar.getPiece().getType().charAt(0) == 'w' && whoseTurn % 2 != 0)) {
-            System.out.print("Illegal move, try again: ");
-            return true;
+            //System.out.print("Illegal move, try again: ");
+            return -1;
         }
 
         if(tar.getPiece() != null && dest.getPiece() != null) {
             if(tar.getPiece().getType().charAt(0) == dest.getPiece().getType().charAt(0)) {
-                System.out.print("Illegal move, try again: ");
-                return true;
+                //System.out.print("Illegal move, try again: ");
+                return -1;
             }
         }
 
@@ -190,12 +200,12 @@ public class Board {
                 ((tar.getName().equals("e8") && dest.getName().equals("g8")) || (tar.getName().equals("e8") && dest.getName().equals("c8")))) {
 
             if(inCheck) {
-                System.out.print("Illegal move, try again: ");
-                return true;
+                //System.out.print("Illegal move, try again: ");
+                return -1;
             }
             if(tar.getPiece() == null || tar.getPiece().getHasItMovedYet()) {
-                System.out.print("Illegal move, try again: ");
-                return true;
+                //System.out.print("Illegal move, try again: ");
+                return -1;
             }
 
             Space rookSpace;
@@ -223,8 +233,8 @@ public class Board {
             }
 
             if(rookSpace.getPiece() == null || rookSpace.getPiece().getHasItMovedYet()) {
-                System.out.print("Illegal move, try again: ");
-                return true;
+                //System.out.print("Illegal move, try again: ");
+                return -1;
             }
 
             Space inbetweenSpotA;
@@ -267,8 +277,8 @@ public class Board {
 
             if(rightSide ? inbetweenSpotA.getPiece() != null || inbetweenSpotB.getPiece() != null :
                     inbetweenSpotA.getPiece() != null || inbetweenSpotB.getPiece() != null || inbetweenSpotC.getPiece() != null) {
-                System.out.print("Illegal move, try again: ");
-                return true;
+                //System.out.print("Illegal move, try again: ");
+                return -1;
             }
 
             List<Space> inbetweeners = new ArrayList<Space>();
@@ -283,8 +293,8 @@ public class Board {
                 for(int i = 0; i < pieces.length; i++) {
                     for(int j = 0; j < pieces[i].getMoves().length; j++) {
                         if(p.getName().equals(pieces[i].getMoves()[j])) {
-                            System.out.print("Illegal move, try again: ");
-                            return true;
+                            //System.out.print("Illegal move, try again: ");
+                            return -1;
                         }
                     }
                 }
@@ -317,20 +327,17 @@ public class Board {
             reState();
             reState();
             whoseTurn++;
-            print();
+            //print();
             if(isCheckMate())
-                return false;
+                return 0;
 
-            return true;
+            return 3;
 
         }
 
         if(inputs.length == 3) {
             String thirdOption = inputs[2];
-            if(thirdOption.equals("draw?")) {
-                drawFlag = true;
-            }
-            else if(tar.getPiece() instanceof Pawn &&
+            if(tar.getPiece() instanceof Pawn &&
                     thirdOption.equals("R") || thirdOption.equals("N")  ||
                     thirdOption.equals("B") || thirdOption.equals("Q")) {
 
@@ -341,14 +348,14 @@ public class Board {
                     promotion = thirdOption;
                 }
                 else {
-                    System.out.print("Illegal move, try again: ");
-                    return true;
+                    //System.out.print("Illegal move, try again: ");
+                    return -1;
                 }
 
             }
             else {
-                System.out.print("Illegal move, try again: ");
-                return true;
+                //System.out.print("Illegal move, try again: ");
+                return -1;
             }
 
         }
@@ -359,9 +366,9 @@ public class Board {
         if(inCheck) {
             if((whoseTurn % 2 == 0) ? Board.WgoodInCheckMoves.size() == 0 : Board.BgoodInCheckMoves.size() == 0) {
                 setCheckMate(true);
-                print();
+                //print();
                 if(isCheckMate())
-                    return false;
+                    return 0;
             }
             else if((whoseTurn % 2 == 0) ? Board.WgoodInCheckMoves.contains(input) : Board.BgoodInCheckMoves.contains(input)) {
                 if(dest.movePiece(tar.getPiece())) {
@@ -375,22 +382,22 @@ public class Board {
                     reState();
                     reState();
                     whoseTurn++;
-                    print();
+                    //print();
                     if(isCheckMate())
-                        return false;
+                        return 0;
 
-                    return true;
+                    return 3;
                 }
                 else {
                     String [] m = tar.getPiece().getMoves();
-                    System.out.println(Arrays.toString(m));
-                    System.out.print("Illegal move, try again: ");
-                    return true;
+                    //System.out.println(Arrays.toString(m));
+                   // System.out.print("Illegal move, try again: ");
+                    return -1;
                 }
             }
             else {
-                System.out.print("Illegal move, try again: ");
-                return true;
+                //System.out.print("Illegal move, try again: ");
+                return -1;
             }
         }
         if(dest.movePiece(tar.getPiece())) {
@@ -404,16 +411,16 @@ public class Board {
             reState();
             reState();
             whoseTurn++;
-            print();
+            //print();
             if(isCheckMate())
-                return false;
+                return 0;
 
-            return true;
+            return 3;
         }
         else {
             String [] m = tar.getPiece().getMoves();
-            System.out.print("Illegal move, try again: ");
-            return true;
+            //System.out.print("Illegal move, try again: ");
+            return -1;
         }
     }
 
@@ -559,19 +566,19 @@ public class Board {
                 if(tmp.getPiece() instanceof Pawn) {
                     switch(promotion) {
                         case "R":
-                            newPiece = new Rook("wR", tmp);
+                            newPiece = new Rook("wR", tmp, x.getResources().getDrawable(R.drawable.wrook, x.getTheme()));
                             break;
                         case "N":
-                            newPiece = new Knight("wN", tmp);
+                            newPiece = new Knight("wN", tmp, x.getResources().getDrawable(R.drawable.wknight, x.getTheme()));
                             break;
                         case "B":
-                            newPiece = new Bishop("wB", tmp);
+                            newPiece = new Bishop("wB", tmp, x.getResources().getDrawable(R.drawable. wbishop, x.getTheme()));
                             break;
                         case "Q":
-                            newPiece = new Queen("wQ", tmp);
+                            newPiece = new Queen("wQ", tmp, x.getResources().getDrawable(R.drawable.wqueen, x.getTheme()));
                             break;
                         default:
-                            newPiece = new Queen("wQ", tmp);
+                            newPiece = new Queen("wQ", tmp, x.getResources().getDrawable(R.drawable.wqueen, x.getTheme()));
                     }
                     replacePiece(turn, newPiece);
                     tmp.setPiece(newPiece);
@@ -585,19 +592,19 @@ public class Board {
                 if(tmp.getPiece() instanceof Pawn) {
                     switch(promotion) {
                         case "R":
-                            newPiece = new Rook("bR", tmp);
+                            newPiece = new Rook("bR", tmp, x.getResources().getDrawable(R.drawable.brook, x.getTheme()));
                             break;
                         case "N":
-                            newPiece = new Knight("bN", tmp);
+                            newPiece = new Knight("bN", tmp, x.getResources().getDrawable(R.drawable.bknight, x.getTheme()));
                             break;
                         case "B":
-                            newPiece = new Bishop("bB", tmp);
+                            newPiece = new Bishop("bB", tmp, x.getResources().getDrawable(R.drawable.bbishop, x.getTheme()));
                             break;
                         case "Q":
-                            newPiece = new Queen("bQ", tmp);
+                            newPiece = new Queen("bQ", tmp, x.getResources().getDrawable(R.drawable.bqueen, x.getTheme()));
                             break;
                         default:
-                            newPiece = new Queen("bQ", tmp);
+                            newPiece = new Queen("bQ", tmp, x.getResources().getDrawable(R.drawable.bqueen, x.getTheme()));
                     }
                     replacePiece(turn, newPiece);
                     tmp.setPiece(newPiece);
@@ -705,6 +712,7 @@ public class Board {
      * prints the board after move and all pieces have calculated there new move set
      * checks flags to see if any extra information should be printed
      */
+    /*
     public void print() {
         int rows = 8;
         for(int i = 0; i < 8; i++) {
@@ -731,4 +739,5 @@ public class Board {
             System.out.print((whoseTurn % 2 == 0) ? "Whites move: " : "Blacks move: ");
         }
     }
+    */
 }

@@ -1,6 +1,8 @@
 package com.example.androidchess;
 
 
+import android.graphics.drawable.Drawable;
+
 /**
  *
  * @author John Sweeney
@@ -14,8 +16,8 @@ public class Knight extends Piece{
      * @param type String
      * @param space Space
      */
-    public Knight(String type, Space space) {
-        super(type, space);
+    public Knight(String type, Space space, Drawable x) {
+        super(type, space, x);
     }
 
     /**

@@ -1,5 +1,7 @@
 package com.example.androidchess;
 
+import android.graphics.drawable.Drawable;
+
 import java.util.*;
 
 /**
@@ -36,8 +38,8 @@ public class Pawn extends Piece{
      * @param type String
      * @param space Space
      */
-    public Pawn(String type, Space space) {
-        super(type, space);
+    public Pawn(String type, Space space, Drawable x) {
+        super(type, space, x);
     }
 
     /**

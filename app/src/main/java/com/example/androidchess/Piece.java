@@ -1,6 +1,8 @@
 package com.example.androidchess;
 
 
+import android.graphics.drawable.Drawable;
+
 import java.util.*;
 
 /**
@@ -29,13 +31,15 @@ public abstract class Piece {
     private String [] rangeOfCheck;
     private boolean hasItMovedYet = false;
     private boolean iHaveCheck = false;
+    private Drawable pieceImage;
 
     /**
      * Constructor for Piece
      * @param type String
      * @param space Space
      */
-    public Piece(String type, Space space) {
+    public Piece(String type, Space space, Drawable sprite) {
+        setSprite(sprite);
         setType(type);
         setSpace(space);
     }
@@ -54,6 +58,10 @@ public abstract class Piece {
             this.type = type;
         else
             System.out.println("invalid piece type");
+    }
+
+    public void setSprite(Drawable d){
+        pieceImage = d;
     }
 
     /**
@@ -171,6 +179,10 @@ public abstract class Piece {
      */
     public String getType() {
         return type;
+    }
+
+    public Drawable getSprite(){
+        return pieceImage;
     }
 
     /**
