@@ -53,7 +53,7 @@ public class Board {
             for(int j = 0; j < 8; j++) {
                 String name = column + Integer.toString(row);
                 String color = ((colorPicker % 2 == 0) ? "  " : "##");
-                int resID = x.getResources().getIdentifier(name, "Id", "com.example.androidchess");
+                int resID = x.getResources().getIdentifier(name, "id", x.getPackageName());
                 Space s = new Space(color, name, (ImageView)x.findViewById(resID));
                 board[i][j] = s;
                 column++;

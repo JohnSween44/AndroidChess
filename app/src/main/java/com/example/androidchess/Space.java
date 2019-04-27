@@ -60,6 +60,7 @@ public class Space {
      */
     public void setPiece(Piece piece) {
         this.piece = piece;
+        getSpot().setImageDrawable(piece.getSprite());
     }
 
     /**
@@ -71,6 +72,7 @@ public class Space {
     public boolean movePiece(Piece piece) {
         if(piece.checkMoves(this)) {
             this.piece = piece;
+            getSpot().setImageDrawable(piece.getSprite());
             piece.setHasItMovedYet(true);
             piece.setSpace(this);
             return true;
