@@ -148,12 +148,12 @@ public class Board {
                 //System.out.println(winner);
                 return 1;
             }
+            else if(inputs[0].equals("draw") && drawFlag) {
+                return 2;
+            }
             else if(inputs[0].equals("draw")){
                 drawFlag = true;
                 return 4;
-            }
-            else if(inputs[0].equals("draw") && drawFlag) {
-                return 2;
             }
             else {
                 //System.out.print("Illegal move, try again: ");
@@ -327,7 +327,7 @@ public class Board {
             reState();
             reState();
             whoseTurn++;
-            //print();
+            print();
             if(isCheckMate())
                 return 0;
 
@@ -717,7 +717,7 @@ public class Board {
      * checks flags to see if any extra information should be printed
      */
 
-    /*
+
     public void print() {
         int rows = 8;
         for(int i = 0; i < 8; i++) {
@@ -744,5 +744,5 @@ public class Board {
             System.out.print((whoseTurn % 2 == 0) ? "Whites move: " : "Blacks move: ");
         }
     }
-    */
+
 }

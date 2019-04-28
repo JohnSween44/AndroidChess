@@ -582,11 +582,14 @@
 
     <TextView
         android:id="@+id/messageBox"
+        style="@style/Base.TextAppearance.AppCompat.Title"
         android:layout_width="227dp"
         android:layout_height="52dp"
         android:layout_marginTop="86dp"
         android:layout_marginBottom="72dp"
-        android:text="TextView"
+        android:gravity="center"
+        android:text="@string/whitesTurn"
+        android:textColor="#F5EEEE"
         app:layout_constraintBottom_toTopOf="@+id/board"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -608,13 +611,13 @@
                 android:id="@+id/Undo"
                 android:layout_width="170dp"
                 android:layout_height="60dp"
-                android:text="Undo" />
+                android:text="@string/undo" />
 
             <Button
                 android:id="@+id/Draw"
                 android:layout_width="170dp"
                 android:layout_height="60dp"
-                android:text="Draw?" />
+                android:text="@string/draw" />
         </TableRow>
 
         <TableRow
@@ -625,13 +628,13 @@
                 android:id="@+id/aimove"
                 android:layout_width="170dp"
                 android:layout_height="60dp"
-                android:text="A.I. Move" />
+                android:text="@string/aimove" />
 
             <Button
                 android:id="@+id/Resign"
                 android:layout_width="170dp"
                 android:layout_height="60dp"
-                android:text="Resign" />
+                android:text="@string/resign" />
         </TableRow>
 
     </TableLayout>

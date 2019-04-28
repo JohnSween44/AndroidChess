@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">androidChess</string>
+    <string name="error">Illegal move, try again!</string>
+    <string name="checkMateBlack">Checkmate! Black Wins</string>
+    <string name="checkMateWhite">Checkmate! White Wins</string>
+    <string name="whitesInCheck">Whites in check!</string>
+    <string name="blacksInCheck">Blacks in Check!</string>
+    <string name="whitesTurn">Whites turn</string>
+    <string name="blacksTurn">Blacks turn</string>
+    <string name="propositionWhite">White Offers Draw, does Black accept</string>
+    <string name="propositionBlack">Black Offers Draw, does White accept</string>
+    <string name="whiteResigns">White Resigns, Black wins!</string>
+    <string name="blackResigns">Black Resigns, White wins!</string>
+    <string name="draw">Draw</string>
+    <string name="undo">Undo</string>
+    <string name="aimove">A.I. Move</string>
+    <string name="resign">Resign</string>
 </resources>
