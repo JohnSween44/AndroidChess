@@ -47,7 +47,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             view.setBackgroundColor(Color.parseColor("#A82746E4"));
             destination = view.getTag().toString();
             String move = target + " " + destination;
-            int resutlt = logicBoard.play(move);
+            int result = logicBoard.play(move);
+            System.out.println(result);
             view.setBackgroundColor(Color.parseColor("#00000000"));
             targetView.setBackgroundColor(Color.parseColor("#00000000"));
             firstSelection = false;

@@ -60,6 +60,7 @@ public class Space {
      */
     public void setPiece(Piece piece) {
         if(piece == null) {
+            this.piece = null;
             getSpot().setImageDrawable(null);
         }
         else {

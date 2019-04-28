@@ -579,4 +579,60 @@
                 app:srcCompat="@color/colorPrimary" />
         </TableRow>
     </TableLayout>
+
+    <TextView
+        android:id="@+id/messageBox"
+        android:layout_width="227dp"
+        android:layout_height="52dp"
+        android:layout_marginTop="86dp"
+        android:layout_marginBottom="72dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/board"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TableLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/Undo"
+                android:layout_width="170dp"
+                android:layout_height="60dp"
+                android:text="Undo" />
+
+            <Button
+                android:id="@+id/Draw"
+                android:layout_width="170dp"
+                android:layout_height="60dp"
+                android:text="Draw?" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/aimove"
+                android:layout_width="170dp"
+                android:layout_height="60dp"
+                android:text="A.I. Move" />
+
+            <Button
+                android:id="@+id/Resign"
+                android:layout_width="170dp"
+                android:layout_height="60dp"
+                android:text="Resign" />
+        </TableRow>
+
+    </TableLayout>
 </android.support.constraint.ConstraintLayout>

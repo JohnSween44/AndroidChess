@@ -35,7 +35,7 @@ public class Board {
     private static boolean inCheck = false;
     private static boolean checkMate = false;
     private boolean drawFlag = false;
-    private int whoseTurn = 0;
+    private static int whoseTurn = 0;
     private Activity x;
     //private Scanner keys = new Scanner(System.in);
 
@@ -424,6 +424,10 @@ public class Board {
         }
     }
 
+    public static int getWhoseTurn(){
+        return whoseTurn;
+    }
+
     /**
      * If a piece is captured it must be removed from the board and this Array that contains the piece to be terminated
      * @param deadPiece is the piece to be removed
@@ -712,6 +716,7 @@ public class Board {
      * prints the board after move and all pieces have calculated there new move set
      * checks flags to see if any extra information should be printed
      */
+
     /*
     public void print() {
         int rows = 8;
