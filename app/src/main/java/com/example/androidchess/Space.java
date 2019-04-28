@@ -59,8 +59,13 @@ public class Space {
      * @param piece Piece
      */
     public void setPiece(Piece piece) {
-        this.piece = piece;
-        getSpot().setImageDrawable(piece.getSprite());
+        if(piece == null) {
+            getSpot().setImageDrawable(null);
+        }
+        else {
+            this.piece = piece;
+            getSpot().setImageDrawable(piece.getSprite());
+        }
     }
 
     /**
