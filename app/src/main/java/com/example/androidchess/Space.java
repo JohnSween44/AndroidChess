@@ -34,6 +34,10 @@ public class Space {
         setName(name);
     }
 
+    public Space(Space space){
+        this(space.getColor(), space.getName(), space.getSpot());
+    }
+
     /**
      * set the color
      * @param color string

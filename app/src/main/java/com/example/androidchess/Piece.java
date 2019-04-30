@@ -44,6 +44,10 @@ public abstract class Piece {
         setSpace(space);
     }
 
+    public Piece(Piece piece){
+        this(piece.getType(), piece.getSpace(), piece.getSprite());
+    }
+
     /**
      * set they type of pawn with 2 character string where the first character is the color of the piece and the second is the kind of piece
      * @param type String

@@ -67,7 +67,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 //nothing yet
                 break;
             case R.id.aimove:
-                //nothing yet
+                result = logicBoard.play(logicBoard.aiMove());
+                handleResult(result);
+                if(itsHasntEnded){
+                    if ((logicBoard.getWhoseTurn() % 2 == 0)) {
+                        if(logicBoard.getInCheck()){
+                            msgBox.setText(R.string.whitesInCheck);
+                        }
+                        else{
+                            msgBox.setText(R.string.whitesTurn);
+                        }
+                    }
+                    else {
+                        if(logicBoard.getInCheck()){
+                            msgBox.setText(R.string.blacksInCheck);
+                        }
+                        else{
+                            msgBox.setText(R.string.blacksTurn);
+                        }
+                    }
+                }
                 break;
             case R.id.Draw:
                 result = logicBoard.play("draw");
@@ -162,5 +181,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
     }
-
 }
+

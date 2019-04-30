@@ -327,7 +327,7 @@ public class Board {
             reState();
             reState();
             whoseTurn++;
-            print();
+            //print();
             if(isCheckMate())
                 return 0;
 
@@ -717,7 +717,7 @@ public class Board {
      * checks flags to see if any extra information should be printed
      */
 
-
+    /*
     public void print() {
         int rows = 8;
         for(int i = 0; i < 8; i++) {
@@ -744,5 +744,44 @@ public class Board {
             System.out.print((whoseTurn % 2 == 0) ? "Whites move: " : "Blacks move: ");
         }
     }
+    */
 
+    public static String aiMove(){
+        Piece colorPieces[] = (whoseTurn % 2 == 0) ? getWhitePieces() : getBlackPieces();
+        Random rand = new Random();
+        if(inCheck){
+            List<String> tmp = ((whoseTurn % 2 == 0) ? Board.WgoodInCheckMoves : Board.BgoodInCheckMoves);
+            String inCheckMoves[] = tmp.toArray(new String[tmp.size()]);
+            if(inCheckMoves.length == 1){
+                return inCheckMoves[0];
+            }
+            int escape = rand.nextInt(inCheckMoves.length - 1);
+            return inCheckMoves[escape];
+        }
+        boolean dosentHaveMoves = true;
+        String move = " ";
+        while(dosentHaveMoves) {
+            int num = rand.nextInt(colorPieces.length - 1);
+            Piece chosen = colorPieces[num];
+            String moves[] = chosen.getMoves();
+            if(moves.length == 0)
+                continue;
+            else
+                dosentHaveMoves = false;
+            //System.out.println(moves.length + " " + chosen);
+            int chosenMove;
+            if(moves.length == 1)
+                chosenMove = 0;
+            else
+                chosenMove = rand.nextInt(moves.length - 1);
+            String spot = moves[chosenMove];
+            Space tmp = fetchSpace(spot);
+            if(tmp.getPiece() != null && tmp.getPiece().getType().charAt(0) == chosen.getType().charAt(0)){
+                dosentHaveMoves = true;
+                continue;
+            }
+            move = chosen.getSpace().getName() + " " + spot;
+        }
+        return move;
+    }
 }
