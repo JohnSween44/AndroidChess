@@ -1,9 +1,11 @@
 package com.example.androidchess;
 
-import android.widget.ImageView;
 import android.app.Activity;
+import android.widget.ImageView;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 /**
  *
@@ -27,8 +29,11 @@ public class Board {
      * the board
      */
     private static Space [][] board = new Space[8][8];
+    private static Space [][] secondBoard = new Space[8][8];
     private static Piece [] whitePieces = new Piece[16];
+    private static List<Piece> backUpWhitePieces = new ArrayList<Piece>();
     private static Piece [] blackPieces = new Piece[16];
+    private static List<Piece> backupBlackPieces = new ArrayList<Piece>();
     private static String promotion = "Q";
     private static List<String> WgoodInCheckMoves = new ArrayList<String>();
     private static List<String> BgoodInCheckMoves = new ArrayList<String>();
@@ -131,6 +136,8 @@ public class Board {
      * 		   in which case it returns false as the game has now ended
      */
     public int play(String input) {
+        backUp();
+        print();
         Piece inDangerPiece = null;
         boolean possibleCapture = false;
         //String input = keys.nextLine();
@@ -411,7 +418,7 @@ public class Board {
             reState();
             reState();
             whoseTurn++;
-            //print();
+            print();
             if(isCheckMate())
                 return 0;
 
@@ -538,7 +545,7 @@ public class Board {
      * and set appropriate flags. It will also reset good in check moves to empty if the king is
      * no longer in check
      */
-    public void reState() {
+    public  static void reState() {
         for(int i = 0; i < whitePieces.length; i++) {
             whitePieces[i].calculateMoves();
             if(whitePieces[i].isiHaveCheck()) {
@@ -717,8 +724,8 @@ public class Board {
      * checks flags to see if any extra information should be printed
      */
 
-    /*
-    public void print() {
+
+    public static void print() {
         int rows = 8;
         for(int i = 0; i < 8; i++) {
             for(int j = 0; j < 8; j++) {
@@ -744,7 +751,7 @@ public class Board {
             System.out.print((whoseTurn % 2 == 0) ? "Whites move: " : "Blacks move: ");
         }
     }
-    */
+
 
     public static String aiMove(){
         Piece colorPieces[] = (whoseTurn % 2 == 0) ? getWhitePieces() : getBlackPieces();
@@ -783,5 +790,98 @@ public class Board {
             move = chosen.getSpace().getName() + " " + spot;
         }
         return move;
+    }
+
+    public void backUp(){
+        for(int i = 0; i < 8; i++){
+            for(int j = 0; j < 8; j++){
+                secondBoard[i][j] = new Space(board[i][j]);
+                if(board[i][j].getPiece() != null){
+                    switch(board[i][j].getPiece().getType().charAt(1)){
+                        case 'p':
+                            Pawn tmpP = new Pawn((Pawn) board[i][j].getPiece());
+                            secondBoard[i][j].setPiece(tmpP);
+                            if ((board[i][j].getPiece().getType().charAt(0) == 'w')) {
+                                backUpWhitePieces.add(tmpP);
+                            }
+                            else {
+                                backupBlackPieces.add(tmpP);
+                            }
+                            break;
+                        case 'R':
+                            Rook tmpR = new Rook((Rook) board[i][j].getPiece());
+                            secondBoard[i][j].setPiece(tmpR);
+                            if ((board[i][j].getPiece().getType().charAt(0) == 'w')) {
+                                backUpWhitePieces.add(tmpR);
+                            }
+                            else {
+                                backupBlackPieces.add(tmpR);
+                            }
+                            break;
+                        case 'N':
+                            Knight tmpN = new Knight((Knight)board[i][j].getPiece());
+                            secondBoard[i][j].setPiece(tmpN);
+                            if ((board[i][j].getPiece().getType().charAt(0) == 'w')) {
+                                backUpWhitePieces.add(tmpN);
+                            }
+                            else {
+                                backupBlackPieces.add(tmpN);
+                            }
+                            break;
+                        case 'B':
+                            Bishop tmpB = new Bishop((Bishop) board[i][j].getPiece());
+                            secondBoard[i][j].setPiece(tmpB);
+                            if ((board[i][j].getPiece().getType().charAt(0) == 'w')) {
+                                backUpWhitePieces.add(tmpB);
+                            }
+                            else {
+                                backupBlackPieces.add(tmpB);
+                            }
+                            break;
+                        case 'Q':
+                            Queen tmpQ = new Queen((Queen) board[i][j].getPiece());
+                            secondBoard[i][j].setPiece(tmpQ);
+                            if ((board[i][j].getPiece().getType().charAt(0) == 'w')) {
+                                backUpWhitePieces.add(tmpQ);
+                            }
+                            else {
+                                backupBlackPieces.add(tmpQ);
+                            }
+                            break;
+                        case 'K':
+                            King tmpK = new King((King) board[i][j].getPiece());
+                            secondBoard[i][j].setPiece(tmpK);
+                            if ((board[i][j].getPiece().getType().charAt(0) == 'w')) {
+                                backUpWhitePieces.add(tmpK);
+                            }
+                            else {
+                                backupBlackPieces.add(tmpK);
+                            }
+                            break;
+                        default:
+                            secondBoard[i][j].setPiece(null);
+                            break;
+                    }
+                }
+            }
+        }
+    }
+
+    public static void undo(){
+        board = secondBoard;
+        secondBoard = new Space[8][8];
+        whitePieces = backUpWhitePieces.toArray(new Piece[backupBlackPieces.size()]);
+        backUpWhitePieces = new ArrayList<Piece>();
+        blackPieces = backupBlackPieces.toArray(new Piece[backUpWhitePieces.size()]);
+        backupBlackPieces = new ArrayList<Piece>();
+        reState();
+        reState();
+        for(int i = 0; i < 8; i++){
+            for(int j = 0; j < 8; j++){
+                board[i][j].refresh();
+            }
+        }
+        whoseTurn--;
+        print();
     }
 }

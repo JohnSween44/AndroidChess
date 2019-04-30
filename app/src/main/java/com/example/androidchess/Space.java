@@ -144,4 +144,13 @@ public class Space {
         else
             return false;
     }
+
+    public void refresh() {
+        if(getPiece() == null) {
+            getSpot().setImageDrawable(null);
+        }
+        else {
+            getSpot().setImageDrawable(getPiece().getSprite());
+        }
+    }
 }

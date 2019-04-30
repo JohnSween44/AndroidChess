@@ -30,6 +30,10 @@ public class King extends Piece{
         super(type, space, x);
     }
 
+    public King(King king){
+        super(king);
+    }
+
     /**
      * @return castle boolean
      */

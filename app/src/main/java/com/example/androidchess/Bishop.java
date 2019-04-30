@@ -24,6 +24,9 @@ public class Bishop extends Piece{
         super(type, space, x);
     }
 
+    public Bishop(Bishop bishop){
+        super(bishop);
+    }
     /**
      * implementation of inherited abstract method for calculating moves
      */

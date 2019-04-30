@@ -24,6 +24,10 @@ public class Queen extends Piece{
         super(type, space, x);
     }
 
+    public Queen(Queen queen){
+        super(queen);
+    }
+
     /**
      * implementation of inherited abstract method for calculating moves
      */

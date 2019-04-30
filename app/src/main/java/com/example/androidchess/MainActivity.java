@@ -64,7 +64,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int result;
         switch(view.getId()){
             case R.id.Undo:
-                //nothing yet
+                logicBoard.undo();
+                if(itsHasntEnded){
+                    if ((logicBoard.getWhoseTurn() % 2 == 0)) {
+                        if(logicBoard.getInCheck()){
+                            msgBox.setText(R.string.whitesInCheck);
+                        }
+                        else{
+                            msgBox.setText(R.string.whitesTurn);
+                        }
+                    }
+                    else {
+                        if(logicBoard.getInCheck()){
+                            msgBox.setText(R.string.blacksInCheck);
+                        }
+                        else{
+                            msgBox.setText(R.string.blacksTurn);
+                        }
+                    }
+                }
                 break;
             case R.id.aimove:
                 result = logicBoard.play(logicBoard.aiMove());

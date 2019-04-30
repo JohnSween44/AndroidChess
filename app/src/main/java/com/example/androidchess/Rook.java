@@ -25,6 +25,10 @@ public class Rook extends Piece {
         super(type, space, x);
     }
 
+    public Rook(Rook rook){
+        super(rook);
+    }
+
     /**
      * implementation of inherited abstract method for calculating moves
      */

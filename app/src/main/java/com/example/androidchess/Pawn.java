@@ -42,6 +42,10 @@ public class Pawn extends Piece{
         super(type, space, x);
     }
 
+    public Pawn(Pawn pawn){
+        super(pawn);
+    }
+
     /**
      * Overridden setSpace() from that also checks for enpassant opportunities before setting the space
      */

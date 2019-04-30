@@ -20,6 +20,10 @@ public class Knight extends Piece{
         super(type, space, x);
     }
 
+    public Knight(Knight knight){
+        super(knight);
+    }
+
     /**
      * implementation of inherited abstract method for calculating moves
      */
