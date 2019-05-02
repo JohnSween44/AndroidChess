@@ -19,4 +19,9 @@
     <string name="yes">Save</string>
     <string name="no">Cancel</string>
     <string name="enterName">Enter a Game Name</string>
+    <string name="quit">Quit</string>
+    <string name="confirm">Confirm</string>
+    <string name="title">Welcome to Android Chess</string>
+    <string name="play">New Game</string>
+    <string name="saved">Saved Games</string>
 </resources>

@@ -39,7 +39,7 @@ public class Board {
     private static List<String> BgoodInCheckMoves = new ArrayList<String>();
     private static boolean inCheck = false;
     private static boolean checkMate = false;
-    private boolean drawFlag = false;
+    private static boolean drawFlag = false;
     private static int whoseTurn = 0;
     private Activity x;
     //private Scanner keys = new Scanner(System.in);
@@ -48,6 +48,7 @@ public class Board {
      * Constructor builds board and creates pieces
      */
     public Board(Activity activity) {
+        reset();
         x = activity;
         int whiteIndex = 0;
         int blackIndex = 0;
@@ -128,6 +129,20 @@ public class Board {
         reState();
         //print();
     }
+
+    public static void reset(){
+        whoseTurn = 0;
+        drawFlag = false;
+        checkMate = false;
+        inCheck = false;
+        BgoodInCheckMoves = new ArrayList<String>();
+        WgoodInCheckMoves = new ArrayList<String>();
+        backupBlackPieces = new ArrayList<Piece>();
+        blackPieces = new Piece[16];
+        backUpWhitePieces = new ArrayList<Piece>();
+        whitePieces = new Piece[16];
+    }
+
     /**
      * Starts the game/move by parsing user input to determine if there castle-ing,
      * promoting, drawing, resigning, and if the move is legal and can be cared out. Also determining if the

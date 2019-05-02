@@ -2,6 +2,7 @@ package com.example.androidchess;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button resign;
     private Button undo;
     private Button aimove;
+    private Button quit;
     private TextView msgBox;
     private boolean itsHasntEnded = true;
     private boolean undoFlag = true;
@@ -40,7 +42,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
-        generateBoard();
         draw = findViewById(R.id.Draw);
         draw.setOnClickListener(this);
         resign = findViewById(R.id.Resign);
@@ -49,9 +50,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         undo.setOnClickListener(this);
         aimove = findViewById(R.id.aimove);
         aimove.setOnClickListener(this);
+        quit = findViewById(R.id.Quit);
+        quit.setOnClickListener(this);
         msgBox = findViewById(R.id.messageBox);
+        generateBoard();
+    }
+
+    @Override
+    protected void onStart(){
+        super.onStart();
         logicBoard = new Board(MainActivity.this);
     }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        logicBoard = new Board(MainActivity.this);
+    }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+        logicBoard = null;
+    }
+
+    @Override
+    protected void onStop(){
+        super.onStop();
+        logicBoard = null;
+    }
+
     private void generateBoard() {
         int index = 0;
         int row = 8;
@@ -72,6 +100,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view){
         int result;
         switch(view.getId()){
+            case R.id.Quit:
+                quit();
+                break;
             case R.id.Undo:
                 if(undoFlag) {
                     //System.out.println("undo called");
@@ -227,23 +258,47 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         gameName.setInputType(InputType.TYPE_CLASS_TEXT );
         gameName.setHint(R.string.enterName);
         //gameName.setLayout
-        new AlertDialog.Builder(MainActivity.this)
-                .setTitle(msgBox.getText())
-                .setMessage("Would you like to save this game?")
-                .setView(gameName)
-                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+        final AlertDialog.Builder x = new AlertDialog.Builder(MainActivity.this);
+                x.setTitle(msgBox.getText());
+                x.setMessage("Would you like to save this game?");
+                x.setView(gameName);
+                x.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
+                        if(gameName.getText().equals("")){
+                            x.setMessage("Please enter a name for this game");
+                            x.show();
+                        }
+                        else{
+                            SavedGame newGame = new SavedGame(gameName.getText().toString(), savedMoves);
+                        }
                     }
-                })
-                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                });
+                x.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
+                        startActivity(new Intent(MainActivity.this, MainMenue.class));
                     }
-                })
-                .show();
+                });
+                x.show();
+    }
+
+    public void quit(){
+        AlertDialog.Builder confirm = new AlertDialog.Builder(MainActivity.this);
+        confirm.setTitle("Quit?");
+        confirm.setMessage("Are you sure you want to quit this game");
+        confirm.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                startActivity(new Intent(MainActivity.this, MainMenue.class));
+            }
+        });
+        confirm.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        confirm.show();
     }
 }
-
