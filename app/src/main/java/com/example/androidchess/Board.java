@@ -137,7 +137,7 @@ public class Board {
      */
     public int play(String input) {
         backUp();
-        print();
+        //print();
         Piece inDangerPiece = null;
         boolean possibleCapture = false;
         //String input = keys.nextLine();
@@ -418,7 +418,7 @@ public class Board {
             reState();
             reState();
             whoseTurn++;
-            print();
+            //print();
             if(isCheckMate())
                 return 0;
 
@@ -546,6 +546,8 @@ public class Board {
      * no longer in check
      */
     public  static void reState() {
+        //System.out.println(Arrays.toString(whitePieces));
+        //System.out.println(Arrays.toString(blackPieces));
         for(int i = 0; i < whitePieces.length; i++) {
             whitePieces[i].calculateMoves();
             if(whitePieces[i].isiHaveCheck()) {
@@ -793,6 +795,8 @@ public class Board {
     }
 
     public void backUp(){
+        backupBlackPieces.clear();
+        backUpWhitePieces.clear();
         for(int i = 0; i < 8; i++){
             for(int j = 0; j < 8; j++){
                 secondBoard[i][j] = new Space(board[i][j]);
@@ -859,6 +863,7 @@ public class Board {
                             }
                             break;
                         default:
+                            System.out.println("Thats not good");
                             secondBoard[i][j].setPiece(null);
                             break;
                     }
@@ -870,10 +875,16 @@ public class Board {
     public static void undo(){
         board = secondBoard;
         secondBoard = new Space[8][8];
-        whitePieces = backUpWhitePieces.toArray(new Piece[backupBlackPieces.size()]);
+        //System.out.println("to string white " + backUpWhitePieces);
+        //System.out.println("to string of black " + backupBlackPieces);
+        whitePieces = backUpWhitePieces.toArray(new Piece[backUpWhitePieces.size()]);
+        //System.out.println("new white pieces" + Arrays.toString(whitePieces));
         backUpWhitePieces = new ArrayList<Piece>();
-        blackPieces = backupBlackPieces.toArray(new Piece[backUpWhitePieces.size()]);
+        blackPieces = backupBlackPieces.toArray(new Piece[backupBlackPieces.size()]);
+        //System.out.println("new black pieces" + Arrays.toString(blackPieces));
         backupBlackPieces = new ArrayList<Piece>();
+        Board.setInCheck(false);
+        Board.setCheckMate(false);
         reState();
         reState();
         for(int i = 0; i < 8; i++){
@@ -882,6 +893,6 @@ public class Board {
             }
         }
         whoseTurn--;
-        print();
+        //print();
     }
 }

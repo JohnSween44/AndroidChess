@@ -146,6 +146,11 @@ public abstract class Piece {
      * and calls calculating the path to king
      */
     public void signalCheck() {
+        if(moves.length == 0){
+            setiHaveCheck(false);
+            pathToKing = null;
+            rangeOfCheck = null;
+        }
         for(int i = 0; i < moves.length; i++) {
             Space tmp = Board.fetchSpace(moves[i]);
             if(tmp.getPiece() != null) {
@@ -156,7 +161,14 @@ public abstract class Piece {
                 }
                 else {
                     setiHaveCheck(false);
+                    pathToKing = null;
+                    rangeOfCheck = null;
                 }
+            }
+            else {
+                setiHaveCheck(false);
+                pathToKing = null;
+                rangeOfCheck = null;
             }
         }
     }

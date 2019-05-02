@@ -226,8 +226,22 @@ public class King extends Piece{
         for(int i = 0; i < pieces.length; i++) {
             String [] pieceMoves = pieces[i].getMoves();
             for(int j = 0; j < pieceMoves.length; j++) {
-                if(test.equals(pieceMoves[j]))
+                if(test.equals(pieceMoves[j]) && pieces[i].getType().charAt(1) != 'p')
                     return true;
+            }
+            if(pieces[i].getType().charAt(1) == 'p'){
+                if(pieces[i].getType().charAt(0) == 'w'){
+                    Pawn tmp = (Pawn) pieces[i];
+                    Space [] corners = tmp.getCorners();
+                    if(test.equals(corners[0].getName()) || test.equals(corners[2].getName()))
+                        return true;
+                }
+                if(pieces[i].getType().charAt(0) == 'b'){
+                    Pawn tmp = (Pawn) pieces[i];
+                    Space [] corners = tmp.getCorners();
+                    if(test.equals(corners[1].getName()) || test.equals(corners[3].getName()))
+                        return true;
+                }
             }
         }
         return false;

@@ -32,6 +32,7 @@ public class Pawn extends Piece{
     private String passTake;
     private Space targetPawnSpot;
     private List<String> spots = new ArrayList<String>();
+    private Space [] corners;
 
     /**
      * Constructor for pawn
@@ -96,6 +97,11 @@ public class Pawn extends Piece{
         return targetPawnSpot;
     }
 
+    public Space[] getCorners() {
+        return corners;
+    }
+
+
     /**
      * set targetPawnSpot
      * @param targetPawnSpot Space
@@ -131,6 +137,8 @@ public class Pawn extends Piece{
      * implementation of inherited abstract method for calculating moves
      */
     public void calculateMoves() {
+        String [] x = new String[0];
+        setMoves(x);
         enPassCheck();
 
         if(getType().charAt(0) == 'b')
@@ -142,9 +150,8 @@ public class Pawn extends Piece{
         char column = curSpace.getName().charAt(0);
         int row = Character.getNumericValue(curSpace.getName().charAt(1));
         String [] tmpMoves;
-
+        corners = new Space[4];
         List<String> moves = new ArrayList<String>();
-        Space [] corners = new Space [4];
         char c = ++column;
         --column;
         String m1 = c + Integer.toString(row + 1);

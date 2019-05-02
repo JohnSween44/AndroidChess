@@ -1,13 +1,20 @@
 package com.example.androidchess;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -23,6 +30,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button aimove;
     private TextView msgBox;
     private boolean itsHasntEnded = true;
+    private boolean undoFlag = true;
+    private List <String> savedMoves = new ArrayList<String>();
 
 
     @Override
@@ -64,29 +73,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int result;
         switch(view.getId()){
             case R.id.Undo:
-                logicBoard.undo();
-                if(itsHasntEnded){
-                    if ((logicBoard.getWhoseTurn() % 2 == 0)) {
-                        if(logicBoard.getInCheck()){
-                            msgBox.setText(R.string.whitesInCheck);
-                        }
-                        else{
-                            msgBox.setText(R.string.whitesTurn);
+                if(undoFlag) {
+                    //System.out.println("undo called");
+                    logicBoard.undo();
+                    undoFlag = false;
+                    if (itsHasntEnded) {
+                        if ((logicBoard.getWhoseTurn() % 2 == 0)) {
+                            if (logicBoard.getInCheck()) {
+                                msgBox.setText(R.string.whitesInCheck);
+                            } else {
+                                msgBox.setText(R.string.whitesTurn);
+                            }
+                        } else {
+                            if (logicBoard.getInCheck()) {
+                                msgBox.setText(R.string.blacksInCheck);
+                            } else {
+                                msgBox.setText(R.string.blacksTurn);
+                            }
                         }
                     }
-                    else {
-                        if(logicBoard.getInCheck()){
-                            msgBox.setText(R.string.blacksInCheck);
-                        }
-                        else{
-                            msgBox.setText(R.string.blacksTurn);
-                        }
-                    }
+                }
+                else{
+                    msgBox.setText(R.string.cantUndo);
                 }
                 break;
             case R.id.aimove:
-                result = logicBoard.play(logicBoard.aiMove());
+                String test = logicBoard.aiMove();
+                result = logicBoard.play(test);
+                savedMoves.add(test);
                 handleResult(result);
+                //System.out.println(result + " " + test);
+                //logicBoard.print();
                 if(itsHasntEnded){
                     if ((logicBoard.getWhoseTurn() % 2 == 0)) {
                         if(logicBoard.getInCheck()){
@@ -105,13 +122,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         }
                     }
                 }
+                undoFlag = true;
                 break;
             case R.id.Draw:
                 result = logicBoard.play("draw");
+                savedMoves.add("draw");
                 handleResult(result);
                 break;
             case R.id.Resign:
                 result = logicBoard.play("resign");
+                savedMoves.add("resign");
                 handleResult(result);
                 break;
             default:
@@ -120,6 +140,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     destination = view.getTag().toString();
                     String move = target + " " + destination;
                     result = logicBoard.play(move);
+                    savedMoves.add(move);
                     handleResult(result);
                     view.setBackgroundColor(Color.parseColor("#00000000"));
                     targetView.setBackgroundColor(Color.parseColor("#00000000"));
@@ -127,6 +148,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     target = null;
                     destination = null;
                     targetView = null;
+                    undoFlag = true;
                     if(itsHasntEnded){
                         if ((logicBoard.getWhoseTurn() % 2 == 0)) {
                             if(logicBoard.getInCheck()){
@@ -169,7 +191,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     msgBox.setText(R.string.checkMateWhite);
                 }
                 itsHasntEnded = false;
-                //add end game method
+                endGame();
                 break;
             case 1:
                 if ((logicBoard.getWhoseTurn() % 2 == 0)) {
@@ -178,11 +200,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 else {
                     msgBox.setText(R.string.blackResigns);
                 }
-                //add end game method
+                endGame();
                 break;
             case 2:
                 msgBox.setText(R.string.draw);
-                //add end game method
+                endGame();
                 break;
             case 4:
                 if ((logicBoard.getWhoseTurn() % 2 == 0)) {
@@ -198,6 +220,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 msgBox.setText(R.string.error);
                 break;
         }
+    }
+
+    public void endGame(){
+        final EditText gameName = new EditText(this);
+        gameName.setInputType(InputType.TYPE_CLASS_TEXT );
+        gameName.setHint(R.string.enterName);
+        //gameName.setLayout
+        new AlertDialog.Builder(MainActivity.this)
+                .setTitle(msgBox.getText())
+                .setMessage("Would you like to save this game?")
+                .setView(gameName)
+                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
+                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
+                .show();
     }
 }
 
