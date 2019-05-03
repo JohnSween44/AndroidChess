@@ -1,12 +1,15 @@
 package com.example.androidchess;
 
+import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class SavedGame {
+public class SavedGame implements Serializable {
     private List<String> moves = new ArrayList<String>();
-    private Date date;
+    private String date;
     private String gameName;
 
     public SavedGame(String name, List<String> moves){
@@ -23,12 +26,14 @@ public class SavedGame {
         this.moves = moves;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
     public void setDate() {
-        this.date = date;
+        DateFormat dateFormat = new SimpleDateFormat("HH:MM dd/MM");
+        Date curDate = new Date();
+        date = dateFormat.format(curDate);
     }
 
     public String getGameName() {

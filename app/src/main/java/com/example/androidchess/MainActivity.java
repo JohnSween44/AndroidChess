@@ -14,6 +14,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -271,6 +274,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         }
                         else{
                             SavedGame newGame = new SavedGame(gameName.getText().toString(), savedMoves);
+                            try{
+                                String fiName = "gameSaves.txt";
+                                File fi = new File(getFilesDir(), fiName);
+                                if(fi.exists() && fi.length()!= 0){
+                                    FileOutputStream file = openFileOutput(fiName, MODE_APPEND);
+                                    AppendingObjectOutputStream fil = new AppendingObjectOutputStream(file);
+                                    fil.writeObject(newGame);
+                                    fil.close();
+                                }
+                                else{
+                                    FileOutputStream file = openFileOutput(fiName, MODE_PRIVATE);
+                                    ObjectOutputStream fil = new ObjectOutputStream(file);
+                                    fil.writeObject(newGame);
+                                    fil.close();
+                                }
+
+                            }
+                            catch (Exception w){
+                                System.out.println(w);
+                            }
+                            startActivity(new Intent(MainActivity.this, Games.class));
                         }
                     }
                 });

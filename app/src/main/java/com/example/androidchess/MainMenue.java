@@ -28,7 +28,7 @@ public class MainMenue extends AppCompatActivity{
         oldGames.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                startActivity(new Intent(MainMenue.this, Games.class));
             }
         });
     }

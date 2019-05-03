@@ -38,6 +38,8 @@ public class Board {
     private static List<String> WgoodInCheckMoves = new ArrayList<String>();
     private static List<String> BgoodInCheckMoves = new ArrayList<String>();
     private static boolean inCheck = false;
+    private static boolean whitesInCheck = false;
+    private static boolean blacksInCheck = false;
     private static boolean checkMate = false;
     private static boolean drawFlag = false;
     private static int whoseTurn = 0;
@@ -433,6 +435,8 @@ public class Board {
             reState();
             reState();
             whoseTurn++;
+            if(badMoveCheck())
+                return -1;
             //print();
             if(isCheckMate())
                 return 0;
@@ -567,18 +571,30 @@ public class Board {
             whitePieces[i].calculateMoves();
             if(whitePieces[i].isiHaveCheck()) {
                 Board.setInCheck(true);
+                blacksInCheck = true;
             }
         }
         for(int i = 0; i < blackPieces.length; i++) {
             blackPieces[i].calculateMoves();
             if(blackPieces[i].isiHaveCheck()) {
                 Board.setInCheck(true);
+                whitesInCheck = true;
             }
         }
 
         if(!inCheck) {
             WgoodInCheckMoves.clear();
             BgoodInCheckMoves.clear();
+        }
+    }
+
+    public boolean badMoveCheck(){
+        if((blacksInCheck && (whoseTurn - 1) % 2 == 1) || (whitesInCheck && (whoseTurn - 1) % 2 == 0)){
+            undo();
+            return true;
+        }
+        else {
+            return false;
         }
     }
 
@@ -888,6 +904,8 @@ public class Board {
     }
 
     public static void undo(){
+        whitesInCheck = false;
+        blacksInCheck = false;
         board = secondBoard;
         secondBoard = new Space[8][8];
         //System.out.println("to string white " + backUpWhitePieces);

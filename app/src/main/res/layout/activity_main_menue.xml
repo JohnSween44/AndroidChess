@@ -27,7 +27,7 @@
     <Button
         android:id="@+id/play"
         android:layout_width="275dp"
-        android:layout_height="50dp"
+        android:layout_height="55dp"
         android:layout_marginBottom="24dp"
         android:text="@string/play"
         app:layout_constraintBottom_toTopOf="@+id/oldGames"
@@ -38,7 +38,7 @@
     <Button
         android:id="@+id/oldGames"
         android:layout_width="275dp"
-        android:layout_height="50dp"
+        android:layout_height="55dp"
         android:layout_marginBottom="180dp"
         android:text="@string/saved"
         app:layout_constraintBottom_toBottomOf="parent"
