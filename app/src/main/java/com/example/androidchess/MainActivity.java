@@ -268,34 +268,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 x.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if(gameName.getText().equals("")){
-                            x.setMessage("Please enter a name for this game");
-                            x.show();
-                        }
-                        else{
-                            SavedGame newGame = new SavedGame(gameName.getText().toString(), savedMoves);
-                            try{
-                                String fiName = "gameSaves.txt";
-                                File fi = new File(getFilesDir(), fiName);
-                                if(fi.exists() && fi.length()!= 0){
-                                    FileOutputStream file = openFileOutput(fiName, MODE_APPEND);
-                                    AppendingObjectOutputStream fil = new AppendingObjectOutputStream(file);
-                                    fil.writeObject(newGame);
-                                    fil.close();
-                                }
-                                else{
-                                    FileOutputStream file = openFileOutput(fiName, MODE_PRIVATE);
-                                    ObjectOutputStream fil = new ObjectOutputStream(file);
-                                    fil.writeObject(newGame);
-                                    fil.close();
-                                }
+                        SavedGame newGame = new SavedGame(gameName.getText().toString(), savedMoves);
+                        try{
+                            String fiName = "gameSaves.txt";
+                            File fi = new File(getFilesDir(), fiName);
+                            if(fi.exists() && fi.length()!= 0){
+                                FileOutputStream file = openFileOutput(fiName, MODE_APPEND);
+                                AppendingObjectOutputStream fil = new AppendingObjectOutputStream(file);
+                                fil.writeObject(newGame);
+                                fil.close();
+                            }
+                            else{
+                                FileOutputStream file = openFileOutput(fiName, MODE_PRIVATE);
+                                ObjectOutputStream fil = new ObjectOutputStream(file);
+                                fil.writeObject(newGame);
+                                fil.close();
+                            }
 
-                            }
-                            catch (Exception w){
-                                System.out.println(w);
-                            }
-                            startActivity(new Intent(MainActivity.this, Games.class));
                         }
+                        catch (Exception w){
+                            System.out.println(w);
+                        }
+                        startActivity(new Intent(MainActivity.this, Games.class));
                     }
                 });
                 x.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {

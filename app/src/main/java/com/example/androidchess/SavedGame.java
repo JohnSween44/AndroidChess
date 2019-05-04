@@ -10,6 +10,7 @@ import java.util.List;
 public class SavedGame implements Serializable {
     private List<String> moves = new ArrayList<String>();
     private String date;
+    private Date realDate;
     private String gameName;
 
     public SavedGame(String name, List<String> moves){
@@ -30,10 +31,19 @@ public class SavedGame implements Serializable {
         return date;
     }
 
+    public Date getRealDate() {
+        return realDate;
+    }
+
+    public void setRealDate(Date realDate) {
+        this.realDate = realDate;
+    }
+
     public void setDate() {
-        DateFormat dateFormat = new SimpleDateFormat("HH:MM dd/MM");
+        DateFormat dateFormat = new SimpleDateFormat("HH:mm dd/MM");
         Date curDate = new Date();
         date = dateFormat.format(curDate);
+        realDate = curDate;
     }
 
     public String getGameName() {

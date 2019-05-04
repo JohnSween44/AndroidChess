@@ -30,6 +30,10 @@
     <string name="numMoves">moves</string>
     <string name="viewGames">View</string>
     <string name="delete">Delete</string>
+    <string name="sortN">Sort by game name</string>
+    <string name="sortD">Sort by date played</string>
+    <string name="next">Next</string>
+    <string name="prev">Previous</string>
     <string name="large_text">
         "Material is the metaphor.\n\n"
 
