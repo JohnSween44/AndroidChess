@@ -1,6 +1,7 @@
 package com.example.androidchess;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -37,7 +38,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private boolean itsHasntEnded = true;
     private boolean undoFlag = true;
     private List <String> savedMoves = new ArrayList<String>();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view){
-        int result;
+        final int result;
         switch(view.getId()){
             case R.id.Quit:
                 quit();
@@ -133,7 +133,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.aimove:
                 String test = logicBoard.aiMove();
-                result = logicBoard.play(test);
+                String [] inputs = test.split(" ");
+                result = logicBoard.play(promotionCheck(inputs[0], inputs[1]));
                 savedMoves.add(test);
                 handleResult(result);
                 //System.out.println(result + " " + test);
@@ -159,9 +160,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 undoFlag = true;
                 break;
             case R.id.Draw:
-                result = logicBoard.play("draw");
                 savedMoves.add("draw");
-                handleResult(result);
+                AlertDialog.Builder draw = new AlertDialog.Builder(MainActivity.this);
+                draw.setCancelable(false);
+                draw.setTitle(R.string.drawquest);
+                draw.setMessage((logicBoard.getWhoseTurn() % 2 == 0) ? R.string.propositionWhite : R.string.propositionBlack);
+                draw.setPositiveButton(R.string.draw, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        savedMoves.add("draw");
+                        handleResult(2);
+                    }
+                });
+                draw.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                Dialog dialog = draw.create();
+                dialog.show();
                 break;
             case R.id.Resign:
                 result = logicBoard.play("resign");
@@ -172,7 +190,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if(firstSelection){
                     view.setBackgroundColor(Color.parseColor("#A82746E4"));
                     destination = view.getTag().toString();
-                    String move = target + " " + destination;
+                    String move = promotionCheck(target, destination);
                     result = logicBoard.play(move);
                     savedMoves.add(move);
                     handleResult(result);
@@ -210,6 +228,65 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
         }
+
+    }
+
+    public String promotionCheck(final String tar, final String dest){
+        Space t = logicBoard.fetchSpace(tar);
+        Space d = logicBoard.fetchSpace(dest);
+        Boolean flag = false;
+        final String ret[] ={null};
+        ret[0] = tar + " " + dest;
+        if(t.getPiece() == null){
+            return ret[0];
+        }
+        if((t.getPiece().getType().equals("wp") && d.getName().charAt(1) == '8') ||
+                t.getPiece().getType().equals("bp") && d.getName().charAt(1) == '1'){
+            final AlertDialog.Builder promote = new AlertDialog.Builder(MainActivity.this);
+            String title = "Promote a Pawn!";
+            promote.setTitle(title);
+            String options[] = {"Queen","Bishop","Knight","Rook"};
+            promote.setItems(options, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    switch (which){
+                        case 0:
+                            String move = tar + " " + dest +" Q";
+                            logicBoard.undo();
+                            int r = logicBoard.play(move);
+                            savedMoves.add(move);
+                            handleResult(r);
+                            break;
+                        case 1:
+                            String move1 = tar + " " + dest +" B";
+                            logicBoard.undo();
+                            int r1 = logicBoard.play(move1);
+                            savedMoves.add(move1);
+                            handleResult(r1);
+                            break;
+                        case 2:
+                            String move2 = tar + " " + dest +" N";
+                            logicBoard.undo();
+                            int r2 = logicBoard.play(move2);
+                            savedMoves.add(move2);
+                            handleResult(r2);
+                            break;
+                        case 3:
+                            String move3 = tar + " " + dest +" R";
+                            logicBoard.undo();
+                            int r3 = logicBoard.play(move3);
+                            savedMoves.add(move3);
+                            handleResult(r3);
+                            break;
+                    }
+                }
+            });
+            promote.setCancelable(false);
+            AlertDialog dialog = promote.create();
+            dialog.setCanceledOnTouchOutside(false);
+            dialog.show();
+        }
+        return tar + " " + dest;
     }
 
     public void handleResult(int result){
