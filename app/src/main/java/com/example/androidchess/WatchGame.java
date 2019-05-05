@@ -33,7 +33,7 @@ public class WatchGame extends AppCompatActivity {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                foward();
+                forwards();
             }
         });
 
@@ -41,7 +41,7 @@ public class WatchGame extends AppCompatActivity {
         prev.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                backwards();
             }
         });
 
@@ -66,26 +66,74 @@ public class WatchGame extends AppCompatActivity {
         }
     }
 
-    public void foward(){
+    public void forwards(){
         ImageView tar = null;
         ImageView dest = null;
         String move = moves.get(counter);
         String [] inputs = move.split(" ");
-        for(int i = 0; i < 64; i++){
-            if(board[i].getTag().equals(inputs[0])){
-                tar = board[i];
-            }
-        }
+        if(inputs.length == 3){
 
-        for(int i = 0; i < 64; i++){
-            if(board[i].getTag().equals(inputs[1])){
-                dest = board[i];
-            }
         }
+        else if(move.equals("draw")){
 
-        dest.setImageDrawable(tar.getDrawable());
-        tar.setImageDrawable(null);
-        counter++;
+        }
+        else if(move.equals("resign")){
+
+        }
+        else {
+            String[] input = move.split(" ");
+            for (int i = 0; i < 64; i++) {
+                if (board[i].getTag().equals(input[0])) {
+                    tar = board[i];
+                }
+            }
+
+            for (int i = 0; i < 64; i++) {
+                if (board[i].getTag().equals(input[1])) {
+                    dest = board[i];
+                }
+            }
+
+            dest.setImageDrawable(tar.getDrawable());
+            tar.setImageDrawable(null);
+            String whatHappened = (counter % 2 == 0) ? "Whites move was " + move : "Blacks move was " + move;
+            tbox.setText(whatHappened);
+            counter++;
+        }
+    }
+
+    public void backwards(){
+        counter--;
+        ImageView tar = null;
+        ImageView dest = null;
+        String move = moves.get(counter);
+        String [] inputs = move.split(" ");
+        if(inputs.length == 3){
+
+        }
+        else if(move.equals("draw")){
+
+        }
+        else if(move.equals("resign")){
+
+        }
+        else {
+            String[] input = move.split(" ");
+            for (int i = 0; i < 64; i++) {
+                if (board[i].getTag().equals(input[1])) {
+                    tar = board[i];
+                }
+            }
+
+            for (int i = 0; i < 64; i++) {
+                if (board[i].getTag().equals(input[0])) {
+                    dest = board[i];
+                }
+            }
+
+            dest.setImageDrawable(tar.getDrawable());
+            tar.setImageDrawable(null);
+        }
     }
 
     public void resetBoard(){

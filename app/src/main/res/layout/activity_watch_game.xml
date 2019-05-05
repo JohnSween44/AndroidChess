@@ -525,7 +525,7 @@
         android:layout_marginTop="86dp"
         android:layout_marginBottom="72dp"
         android:gravity="center"
-        android:text="TextView"
+        android:text="@string/begin"
         android:textColor="#F5EEEE"
         app:layout_constraintBottom_toTopOf="@+id/tableLayout"
         app:layout_constraintEnd_toEndOf="parent"

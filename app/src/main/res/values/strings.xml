@@ -12,6 +12,7 @@
     <string name="whiteResigns">White Resigns, Black wins!</string>
     <string name="blackResigns">Black Resigns, White wins!</string>
     <string name="draw">Draw</string>
+    <string name="drawquest">Draw?</string>
     <string name="undo">Undo</string>
     <string name="cantUndo">Can not undo further</string>
     <string name="aimove">A.I. Move</string>
@@ -34,6 +35,7 @@
     <string name="sortD">Sort by date played</string>
     <string name="next">Next</string>
     <string name="prev">Previous</string>
+    <string name="begin">Begin!</string>
     <string name="large_text">
         "Material is the metaphor.\n\n"
 
