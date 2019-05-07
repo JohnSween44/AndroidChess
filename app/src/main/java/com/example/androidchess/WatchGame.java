@@ -132,11 +132,16 @@ public class WatchGame extends AppCompatActivity {
                 newBoard[getIndex(inputs[0])] = null;
                 boards.add(newBoard);
             }
-            else if(moves.get(i).equals("draw")){
-
+            else if(moves.get(i).equals("draw") && moves.get(i+1).equals("draw")){
+                boards.add(newBoard);
+                break;
+            }
+            else if(moves.get(i).equals("draw") && !(moves.get(i+1).equals("draw"))){
+                boards.add(newBoard);
+                continue;
             }
             else if(moves.get(i).equals("resign")){
-
+                continue;
             }
             else {
                 newBoard[getIndex(inputs[1])] = newBoard[getIndex(inputs[0])];
@@ -223,10 +228,16 @@ public class WatchGame extends AppCompatActivity {
 
     public void forwards(){
         counter++;
+        if(moves.get(counter).equals("draw") && moves.get(counter + 1).equals("draw")){
+            endGame();
+        }
         for (int i = 0; i < 64; i++) {
             board[i].setImageDrawable(getImages(boards.get(counter)[i]));
         }
         String text = ((counter % 2 == 0) ? "Whites move was " : "Blacks move was ") + moves.get(counter);
+        if(moves.get(counter).equals("draw") && !(moves.get(counter+1).equals("draw"))){
+            text = ((counter % 2 == 0) ? "White " : "Black ") + "offered draw but Black did not except";
+        }
         tbox.setText(text);
     }
 
