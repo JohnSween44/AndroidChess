@@ -228,15 +228,15 @@ public class WatchGame extends AppCompatActivity {
 
     public void forwards(){
         counter++;
-        if(moves.get(counter).equals("draw") && moves.get(counter + 1).equals("draw")){
+        if(moves.get(counter).equals("draw") && (moves.get(counter + 1).equals("draw") || moves.get(counter + 1).equals("Draw"))){
             endGame();
         }
         for (int i = 0; i < 64; i++) {
             board[i].setImageDrawable(getImages(boards.get(counter)[i]));
         }
-        String text = ((counter % 2 == 0) ? "Whites move was " : "Blacks move was ") + moves.get(counter);
-        if(moves.get(counter).equals("draw") && !(moves.get(counter+1).equals("draw"))){
-            text = ((counter % 2 == 0) ? "White " : "Black ") + "offered draw but Black did not except";
+        String text = ((counter % 2 == 0) ? "Blacks move was " : "Whites move was ") + moves.get(counter);
+        if(moves.get(counter).equals("draw") && !(moves.get(counter + 1).equals("draw") || moves.get(counter + 1).equals("Draw"))){
+            text = ((counter % 2 == 0) ? "Black offered draw but White did not except" : "White offered draw but Black did not except");
         }
         tbox.setText(text);
     }
@@ -247,6 +247,9 @@ public class WatchGame extends AppCompatActivity {
             board[i].setImageDrawable(getImages(boards.get(counter)[i]));
         }
         String text = ((counter % 2 == 0) ? "Whites move was " : "Blacks move was ") + moves.get(counter);
+        if(moves.get(counter).equals("draw") && !(moves.get(counter - 1).equals("draw") || moves.get(counter - 1).equals("Draw"))){
+            text = ((counter % 2 == 0) ? "Black offered draw but White did not except" : "White offered draw but Black did not except");
+        }
         tbox.setText(text);
     }
 
@@ -307,6 +310,8 @@ public class WatchGame extends AppCompatActivity {
     }
 
     public void resetBoard(){
+        String begin = "Begin!";
+        tbox.setText(begin);
         counter = 0;
         board[0].setImageDrawable(getResources().getDrawable(R.drawable.brook, getTheme()));
         board[1].setImageDrawable(getResources().getDrawable(R.drawable.bknight, getTheme()));
