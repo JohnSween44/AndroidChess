@@ -36,8 +36,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button quit;
     private TextView msgBox;
     private boolean itsHasntEnded = true;
-    private boolean undoFlag = true;
+    private boolean undoFlag = false;
     private List <String> savedMoves = new ArrayList<String>();
+    private int lastResult;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,9 +109,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 quit();
                 break;
             case R.id.Undo:
-                if(undoFlag) {
+                if(undoFlag && lastResult != -1) {
                     //System.out.println("undo called");
                     logicBoard.undo();
+                    String tmp[] = savedMoves.get(savedMoves.size() - 1).split(" ");
+                    if(tmp.length == 3){
+                        savedMoves.remove(savedMoves.size() - 1);
+                        savedMoves.remove(savedMoves.size() - 1);
+                    }
+                    else {
+                        savedMoves.remove(savedMoves.size() - 1);
+                    }
                     undoFlag = false;
                     if (itsHasntEnded) {
                         if ((logicBoard.getWhoseTurn() % 2 == 0)) {
@@ -135,6 +145,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 String test = logicBoard.aiMove();
                 String [] inputs = test.split(" ");
                 result = logicBoard.play(promotionCheck(inputs[0], inputs[1]));
+                lastResult = result;
+                undoFlag = true;
                 savedMoves.add(test);
                 handleResult(result);
                 //System.out.println(result + " " + test);
@@ -183,6 +195,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.Resign:
                 result = logicBoard.play("resign");
+                lastResult = result;
                 savedMoves.add("resign");
                 handleResult(result);
                 break;
@@ -192,7 +205,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     destination = view.getTag().toString();
                     String move = promotionCheck(target, destination);
                     result = logicBoard.play(move);
-                    savedMoves.add(move);
+                    lastResult = result;
+                    if(result != -1)
+                        savedMoves.add(move);
                     handleResult(result);
                     view.setBackgroundColor(Color.parseColor("#00000000"));
                     targetView.setBackgroundColor(Color.parseColor("#00000000"));
@@ -345,7 +360,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 x.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        SavedGame newGame = new SavedGame(gameName.getText().toString(), savedMoves);
+                        SavedGame newGame = new SavedGame(gameName.getText().toString(), savedMoves, msgBox.getText().toString());
                         try{
                             String fiName = "gameSaves.txt";
                             File fi = new File(getFilesDir(), fiName);

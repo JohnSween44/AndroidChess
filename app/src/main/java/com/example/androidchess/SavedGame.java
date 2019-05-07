@@ -12,11 +12,21 @@ public class SavedGame implements Serializable {
     private String date;
     private Date realDate;
     private String gameName;
+    private String winner;
 
-    public SavedGame(String name, List<String> moves){
+    public SavedGame(String name, List<String> moves, String winner){
+        setWinner(winner);
         setGameName(name);
         setMoves(moves);
         setDate();
+    }
+
+    public String getWinner() {
+        return winner;
+    }
+
+    public void setWinner(String winner) {
+        this.winner = winner;
     }
 
     public List<String> getMoves() {
@@ -25,6 +35,7 @@ public class SavedGame implements Serializable {
 
     public void setMoves(List<String> moves) {
         this.moves = moves;
+        moves.add(getWinner());
     }
 
     public String getDate() {
