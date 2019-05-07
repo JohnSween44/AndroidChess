@@ -520,10 +520,10 @@
     <TextView
         android:id="@+id/feedBack"
         style="@style/Base.TextAppearance.AppCompat.Title"
-        android:layout_width="227dp"
-        android:layout_height="52dp"
+        android:layout_width="326dp"
+        android:layout_height="53dp"
         android:layout_marginTop="86dp"
-        android:layout_marginBottom="72dp"
+        android:layout_marginBottom="60dp"
         android:gravity="center"
         android:text="@string/begin"
         android:textColor="#F5EEEE"
